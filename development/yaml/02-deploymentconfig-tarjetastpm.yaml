@@ -1,0 +1,48 @@
+﻿kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: tarjetastpm
+  namespace: tarjetas-tpm
+  labels:
+    app: tarjetastpm
+spec:
+  replicas: 0
+  selector:
+    app: tarjetastpm
+  template:
+    metadata:
+      labels:
+        app: tarjetastpm
+    spec:
+      volumes:
+        - name: config-php-ini-tarjetas-tpm
+          configMap:
+            name: config-php-ini-tarjetas-tpm
+            defaultMode: 420
+        - name: config-vendor-tarjetas-tpm
+          configMap:
+            name: config-vendor-tarjetas-tpm
+            defaultMode: 420
+      containers:
+        - name: tarjetastpm
+          image: 'eseatmasv00440.seat.vwg:8083/tarjetas-tpm/tarjetas-tpm:1.0.0'
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: config-php-ini-tarjetas-tpm
+              mountPath: /config
+            - name: config-vendor-tarjetas-tpm
+              mountPath: /config
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+          imagePullSecrets:
+           - name: nexus-registry-dockercfg
