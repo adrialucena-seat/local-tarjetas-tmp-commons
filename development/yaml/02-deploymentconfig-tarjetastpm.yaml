@@ -25,7 +25,7 @@ spec:
             defaultMode: 420
       containers:
         - name: tarjetastpm
-          image: 'eseatmasv00440.seat.vwg:8083/tarjetas-tpm/tarjetas-tpm:1.0.0'
+          image: 'quay.io/mhigueras/tarjetastpm:latest'
           ports:
             - containerPort: 80
               protocol: TCP
