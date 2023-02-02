@@ -1634,7 +1634,7 @@ data:
 
     extension=oci8
     ;extension=pdo_oci
-  10-opache.ini: >
+  php.d/10-opache.ini: >
     ; Enable Zend OPcache extension module
     zend_extension=opcache.so
 
@@ -1748,7 +1748,7 @@ data:
     ; Enables or disables copying of PHP code (text segment) into HUGE PAGES.
     ; This should improve performance, but requires appropriate OS configuration.
     ;opcache.huge_code_pages=0
-  httpd.conf: >
+  httpd/conf/httpd.conf: >
     # This is the main Apache HTTP server configuration file.  It contains the
     # configuration directives that give the server its instructions.
     # See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
