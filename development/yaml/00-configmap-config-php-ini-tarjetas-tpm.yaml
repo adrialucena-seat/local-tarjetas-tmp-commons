@@ -206,7 +206,7 @@ data:
     ; Development Value: Off
     ; Production Value: Off
     ; http://php.net/short-open-tag
-    short_open_tag = ${SHORT_OPEN_TAG}
+    short_open_tag = ON
 
     ; The number of significant digits displayed in floating point numbers.
     ; http://php.net/precision
@@ -393,7 +393,7 @@ data:
 
     ; Maximum amount of memory a script may consume (128MB)
     ; http://php.net/memory-limit
-    memory_limit = ${PHP_MEMORY_LIMIT}
+    memory_limit = 128M
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; Error handling and logging ;
@@ -449,7 +449,7 @@ data:
     ; Development Value: E_ALL
     ; Production Value: E_ALL & ~E_DEPRECATED & ~E_STRICT
     ; http://php.net/error-reporting
-    error_reporting = ${ERROR_REPORTING}
+    error_reporting = E_ALL & ~E_NOTICE
 
     ; This directive controls whether or not and where PHP will output errors,
     ; notices and warnings too. Error output is very useful during development, but
@@ -466,7 +466,7 @@ data:
     ; Development Value: On
     ; Production Value: Off
     ; http://php.net/display-errors
-    display_errors = ${DISPLAY_ERRORS}
+    display_errors = ON
 
     ; The display of errors which occur during PHP's startup sequence are handled
     ; separately from display_errors. PHP's default behavior is to suppress those
@@ -477,7 +477,7 @@ data:
     ; Development Value: On
     ; Production Value: Off
     ; http://php.net/display-startup-errors
-    display_startup_errors = ${DISPLAY_STARTUP_ERRORS}
+    display_startup_errors = ON
 
     ; Besides displaying errors, PHP can also log errors to locations such as a
     ; server-specific log, STDERR, or a location specified by the error_log
@@ -522,7 +522,7 @@ data:
     ; Development Value: Off
     ; Production Value: Off
     ; http://php.net/track-errors
-    track_errors = ${TRACK_ERRORS}
+    track_errors = OFF
 
     ; Turn off normal error reporting and emit XML-RPC error XML
     ; http://php.net/xmlrpc-errors
@@ -539,7 +539,7 @@ data:
     ; Development Value: On
     ; Production value: On
     ; http://php.net/html-errors
-    html_errors = ${HTML_ERRORS}
+    html_errors = ON
 
     ; If html_errors is set to On *and* docref_root is not empty, then PHP
     ; produces clickable error messages that direct to a page describing the error
@@ -712,7 +712,7 @@ data:
     ;
     ; PHP's default setting for include_path is ".;/path/to/php/pear"
     ; http://php.net/include-path
-    include_path = ${INCLUDE_PATH}
+    include_path = .:/opt/app-root/src:/usr/share/pear
 
     ; The root of the PHP pages, used only if nonempty.
     ; if PHP was not compiled with FORCE_REDIRECT, you SHOULD set doc_root
@@ -1183,7 +1183,7 @@ data:
     [Session]
     ; Handler used to store/retrieve data.
     ; http://php.net/session.save-handler
-    session.save_handler = ${SESSION_HANDLER}
+    session.save_handler = files
 
     ; Argument passed to save_handler.  In the case of files, this is the path
     ; where data files are stored. Note: Windows users have to change this
@@ -1216,7 +1216,7 @@ data:
     ; RPM note : session directory must be owned by process owner
     ; for mod_php, see /etc/httpd/conf.d/php.conf
     ; for php-fpm, see /etc/php-fpm.d/*conf
-    session.save_path = ${SESSION_PATH}
+    session.save_path = /tmp/sessions
 
     ; Whether to use strict session mode.
     ; Strict session mode does not accept uninitialized session ID and regenerate
@@ -1231,7 +1231,7 @@ data:
     session.use_cookies = 1
 
     ; http://php.net/session.cookie-secure
-    session.cookie_secure = ${SESSION_COOKIE_SECURE}
+    session.cookie_secure = 0
 
     ; This option forces PHP to fetch and use a cookie for storing and maintaining
     ; the session id. We encourage this operation as it's very helpful in combating
@@ -1242,7 +1242,7 @@ data:
 
     ; Name of the session (used as cookie name).
     ; http://php.net/session.name
-    session.name = ${SESSION_NAME}
+    session.name = PHPSESSID
 
     ; Initialize session on request startup.
     ; http://php.net/session.auto-start
@@ -1258,11 +1258,11 @@ data:
 
     ; The domain for which the cookie is valid.
     ; http://php.net/session.cookie-domain
-    session.cookie_domain = ${SESSION_COOKIE_DOMAIN}
+    session.cookie_domain =
 
     ; Whether or not to add the httpOnly flag to the cookie, which makes it inaccessible to browser scripting languages such as JavaScript.
     ; http://php.net/session.cookie-httponly
-    session.cookie_httponly = ${SESSION_COOKIE_HTTPONLY}
+    session.cookie_httponly =
 
     ; Handler used to serialize data.  php is the standard serializer of PHP.
     ; http://php.net/session.serialize-handler
@@ -1634,7 +1634,7 @@ data:
 
     extension=oci8
     ;extension=pdo_oci
-  php.d/10-opache.ini: >
+  10-opache.ini: >
     ; Enable Zend OPcache extension module
     zend_extension=opcache.so
 
@@ -1645,14 +1645,14 @@ data:
     ;opcache.enable_cli=0
 
     ; The OPcache shared memory storage size.
-    opcache.memory_consumption=${OPCACHE_MEMORY_CONSUMPTION}
+    opcache.memory_consumption=128
 
     ; The amount of memory for interned strings in Mbytes.
     opcache.interned_strings_buffer=8
 
     ; The maximum number of keys (scripts) in the OPcache hash table.
     ; Only numbers between 200 and 1000000 are allowed.
-    opcache.max_accelerated_files=${OPCACHE_MAX_FILES}
+    opcache.max_accelerated_files=4000
 
     ; The maximum percentage of "wasted" memory until a restart is scheduled.
     ;opcache.max_wasted_percentage=5
@@ -1670,7 +1670,7 @@ data:
     ; How often (in seconds) to check file timestamps for changes to the shared
     ; memory storage allocation. ("1" means validate once per second, but only
     ; once per request. "0" means always validate)
-    opcache.revalidate_freq=${OPCACHE_REVALIDATE_FREQ}
+    opcache.revalidate_freq=2
 
     ; Enables or disables file search in include_path optimization
     ;opcache.revalidate_path=0
@@ -1696,7 +1696,7 @@ data:
     ; The location of the OPcache blacklist file (wildcards allowed).
     ; Each OPcache blacklist file is a text file that holds the names of files
     ; that should not be accelerated.
-    opcache.blacklist_filename=${PHP_SYSCONF_PATH}/php.d/opcache*.blacklist
+    opcache.blacklist_filename=/etc/php.d/opcache*.blacklist
 
     ; Allows exclusion of large files from being cached. By default all files
     ; are cached.
@@ -1748,7 +1748,7 @@ data:
     ; Enables or disables copying of PHP code (text segment) into HUGE PAGES.
     ; This should improve performance, but requires appropriate OS configuration.
     ;opcache.huge_code_pages=0
-  httpd/conf/httpd.conf: >
+  httpd.conf: >
     # This is the main Apache HTTP server configuration file.  It contains the
     # configuration directives that give the server its instructions.
     # See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
@@ -2107,3 +2107,18 @@ data:
     # Load config files in the "/etc/httpd/conf.d" directory, if any.
     IncludeOptional conf.d/*.conf
     ServerName 127.0.0.1
+  00-documentroot.conf: >
+    DocumentRoot "/opt/app-root/src/"
+  50-mpm-tuning.conf: >
+    <IfModule mpm_prefork_module>
+        # This value should mirror what is set in MinSpareServers.
+        StartServers          8
+        MinSpareServers       8
+        MaxSpareServers       18
+        # The MaxRequestWorkers directive sets the limit on the number of simultaneous requests that will be served.
+        # The default value, when no Cgroup limits are set is 256.
+        MaxRequestWorkers     256
+        ServerLimit           256
+        MaxRequestsPerChild   4000
+        MaxKeepAliveRequests  100
+    </IfModule>
