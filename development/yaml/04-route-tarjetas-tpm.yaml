@@ -8,7 +8,7 @@ spec:
     tarjetas-tpm-tarjetas-tpm.apps.delorean.globalshared-dev.seat.cloud.vwgroup.com
   to:
     kind: Service
-    name: tarjetatpm-service
+    name: tarjetastpm-service
     weight: 100
   port:
     targetPort: http

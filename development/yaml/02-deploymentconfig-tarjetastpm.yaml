@@ -23,11 +23,19 @@ spec:
           configMap:
             name: config-vendor-tarjetas-tpm
             defaultMode: 420
+        - name: app-local-secret
+          secret:
+            secretName: app-local-secret
+            defaultMode: 420
+        - name: ssls-secret
+          secret:
+            secretName: ssls-secret
+            defaultMode: 420
       containers:
         - name: tarjetastpm
           image: 'quay.io/mhigueras/tarjetastpm:latest'
           ports:
-            - containerPort: 80
+            - containerPort: 4444
               protocol: TCP
           resources:
             limits:
@@ -41,6 +49,10 @@ spec:
               mountPath: /config/phpConfig
             - name: config-vendor-tarjetas-tpm
               mountPath: /config/vendorConfig
+            - name: app-local-secret
+              mountPath: /config/DDBBSecrets  
+            - name: ssls-secret
+              mountPath: /config/sslSecrets
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: Always
